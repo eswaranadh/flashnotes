@@ -1,0 +1,27 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const functions = require('firebase-functions');
+
+const authRoutes = require('./routes/authRoutes');
+const notesRoutes = require('./routes/notesRoutes');
+const flashcardsRoutes = require('./routes/flashcardsRoutes');
+
+const app = express();
+
+// Middleware
+app.use(bodyParser.json());
+app.use(cors());
+
+// Routes
+app.use('/auth', authRoutes);
+app.use('/notes', notesRoutes);
+app.use('/flashcards', flashcardsRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong' });
+});
+
+exports.api = functions.https.onRequest(app);
