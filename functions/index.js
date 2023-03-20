@@ -12,6 +12,10 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
+app.use(function (req, res, next) {
+  console.log('%s %s', req.method, req.url);
+  next();
+});
 
 // Routes
 app.use('/auth', authRoutes);
