@@ -1,39 +1,18 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@mui/styles';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { useAuthContext } from '../../context/authContext';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import { Link } from 'react-router-dom';
+import './LoginForm.css';
 
 const LoginForm = () => {
-  const classes = useStyles();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-  const { login } = useAuthContext()
+  const { handlers } = useAuthContext()
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    login(formData.email, formData.password);
+    handlers.handleLogin(formData.email, formData.password);
   };
 
   const handleChange = (event) => {
@@ -44,46 +23,35 @@ const LoginForm = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <div className={classes.container}>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} className={classes.form}>
-          <TextField
-            required
-            fullWidth
-            label="Email Address"
-            name="email"
-            margin="normal"
-            autoComplete="email"
-            autoFocus
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <TextField
-            required
-            fullWidth
-            label="Password"
-            name="password"
-            type="password"
-            margin="normal"
-            autoComplete="current-password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-        </Box>
+
+    <div className="login-container">
+      <div className="login-box">
+        <div className="login-header">
+          <div>Log In</div>
+        </div>
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input onChange={handleChange} name="email" type="email" id="email" className="form-input" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input onChange={handleChange} name="password" type="password" id="password" className="form-input" />
+          </div>
+          <button type='submit' className="login-button">Log In</button>
+        </form>
+        <div className="login-footer">
+          Don't have an account?{' '}
+          <Link to="/signup" className="signup-link">
+            Sign Up
+          </Link>
+        </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

@@ -3,13 +3,10 @@ import { Route, Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
 import Navbar from './Navbar';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({ path, element: Element }) => {
 
   return (
-    <Route {...rest} element={<>
-      <Navbar />
-      <Component />
-    </>} />
+    <Route path={path} element={<Element />} />
   );
 };
 

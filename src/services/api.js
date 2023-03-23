@@ -24,10 +24,10 @@ axiosInstance.interceptors.request.use(
 );
 
 const api = {
-  get: (url) => axiosInstance.get(url),
-  post: (url, data) => axiosInstance.post(url, data),
-  put: (url, data) => axiosInstance.put(url, data),
-  delete: (url) => axiosInstance.delete(url),
+  get: (url) => axiosInstance.get(url).then((res) => res.data).catch(err => { console.log(err.response); throw err.response.data }),
+  post: (url, data) => axiosInstance.post(url, data).then((res) => res.data).catch(err => { console.log(err.response); throw err.response.data }),
+  put: (url, data) => axiosInstance.put(url, data).then((res) => res.data).catch(err => { console.log(err.response); throw err.response.data }),
+  delete: (url) => axiosInstance.delete(url).then((res) => res.data).catch(err => { console.log(err.response); throw err.response.data }),
 };
 
 export default api;

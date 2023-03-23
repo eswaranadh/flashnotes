@@ -1,50 +1,70 @@
+import { onAuthStateChanged } from 'firebase/auth';
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { login, logout, register } from '../services/auth';
+import { checkAuth, login, logout, register } from '../services/auth';
 import { firebaseAuth } from '../services/firebase';
 
-export const AuthContext = createContext({
-  user: null,
-  login: () => { },
-  logout: () => { },
-});
-export const useAuthContext = () => useContext(AuthContext);
+const AuthContext = createContext();
+const useAuthContext = () => useContext(AuthContext);
 
+const authContextInitialState = {
+  user: {},
+  isLoading: true
+}
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(authContextInitialState.user);
+  const [isLoading, setLoading] = useState(authContextInitialState.isLoading)
+
+  useEffect(() => {
+    const auth = firebaseAuth()
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      stateSetters.setUser(user);
+      setLoading(false)
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const handleLogin = async (email, password) => {
     try {
-      const user = await login(email, password);
-      setUser(user);
-      window.location.reload()
+      await login(email, password);
     } catch (error) {
-
+      console.error(error);
     }
   };
 
   const handleLogout = () => {
     logout();
-    setUser(null);
+    setUser({});
   };
 
   const handleRegister = async ({ username, fullname, password, email }) => {
     await register({ username, fullname, password, email })
   }
 
-  const contextValue = {
+  const state = {
     user,
-    login: handleLogin,
-    logout: handleLogout,
-    handleRegister,
-    isAuthenticated: firebaseAuth()
-  };
+    isLoading
+  }
+
+  const stateSetters = {
+    setUser,
+    setLoading
+  }
+
+  const handlers = {
+    handleLogin,
+    handleLogout,
+    handleRegister
+  }
 
   return (
-    <AuthContext.Provider value={contextValue}>
+    <AuthContext.Provider value={{ state, stateSetters, handlers }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export default AuthProvider;
+export { useAuthContext, AuthProvider }

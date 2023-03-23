@@ -1,0 +1,30 @@
+.loader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f1f1f1;
+}
+
+.loader {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 6px solid #ddd;
+    border-top-color: #007bff;
+    animation: loader-rotate 1.2s linear infinite;
+}
+
+.loader-text {
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+@keyframes loader-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -1,90 +1,39 @@
-import React, { useState, useContext } from "react";
-import {
-  Button,
-  TextField,
-  Box,
-  Typography,
-  Link,
-} from "@mui/material";
-import { useAuthContext } from "../../context/authContext";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './SignupForm.css';
 
-const SignupForm = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    fullname: "",
-    email: "",
-    password: "",
-  });
-
-  const { handleRegister } = useAuthContext()
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      await handleRegister(formData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+function SignupForm() {
   return (
-    <form onSubmit={handleSubmit}>
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <Typography variant="h5" gutterBottom>
-          Sign Up
-        </Typography>
-        <TextField
-          label="User Name"
-          name="username"
-          required
-          value={formData.username}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Full Name"
-          name="fullname"
-          required
-          value={formData.fullname}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Email"
-          name="email"
-          required
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Password"
-          name="password"
-          required
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <Button variant="contained" color="primary" type="submit">
-          Sign Up
-        </Button>
-        <Box mt={2}>
-          <Typography>
-            Already have an account?{" "}
-            <Link href="/login" underline="always">
-              Log In
-            </Link>
-          </Typography>
-        </Box>
-      </Box>
-    </form>
+    <div className="signup-container">
+      <div className="signup-box">
+        <div className="signup-header">
+          <h2 className="signup-title">Sign Up</h2>
+        </div>
+        <form className="signup-form">
+          <div className="form-group">
+            <label className="form-label">Name</label>
+            <input type="text" className="form-input" placeholder="Enter your name" />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Email</label>
+            <input type="email" className="form-input" placeholder="Enter your email" />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Password</label>
+            <input type="password" className="form-input" placeholder="Enter your password" />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Confirm Password</label>
+            <input type="password" className="form-input" placeholder="Confirm your password" />
+          </div>
+          <button type="submit" className="signup-button">Sign Up</button>
+        </form>
+        <p className="signup-footer">Already have an account? <Link to="/login" className="login-link">
+          Log in
+        </Link> </p>
+      </div>
+    </div>
   );
-};
+}
 
 export default SignupForm;
