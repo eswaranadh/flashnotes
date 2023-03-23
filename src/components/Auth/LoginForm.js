@@ -42,7 +42,7 @@ const LoginForm = () => {
             </label>
             <input onChange={handleChange} name="password" type="password" id="password" className="form-input" />
           </div>
-          <button type='submit' className="login-button">Log In</button>
+          <button type='submit' >Log In</button>
         </form>
         <div className="login-footer">
           Don't have an account?{' '}

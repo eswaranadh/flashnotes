@@ -2,6 +2,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { checkAuth, login, logout, register } from '../services/auth';
 import { firebaseAuth } from '../services/firebase';
+import setAuthToken from '../utils/setAuthToken';
 
 const AuthContext = createContext();
 const useAuthContext = () => useContext(AuthContext);
@@ -17,8 +18,12 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const auth = firebaseAuth()
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      stateSetters.setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        stateSetters.setUser(user);
+        const token = await user.getIdToken()
+        setAuthToken(token)
+      }
       setLoading(false)
     });
 

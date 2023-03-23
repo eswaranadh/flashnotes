@@ -1,7 +1,9 @@
 import axios from 'axios';
 import authHeader from '../utils/authHeader';
 
-const API_URL = 'http://localhost:5000/flashnotes-d3933/us-central1/api/';
+const API_URL = window.location.href.includes('http://localhost:3000/') ?
+  'http://localhost:5000/flashnotes-d3933/us-central1/api/' :
+  'https://us-central1-flashnotes-d3933.cloudfunctions.net/api';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -12,7 +14,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = authHeader();
+    const token = localStorage.getItem("token")
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

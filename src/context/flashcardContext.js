@@ -1,11 +1,26 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { getFlashcards, createFlashcard, updateFlashcard, deleteFlashcard } from '../services/flashcards';
 
-export const FlashcardContext = createContext();
+const FlashcardContext = createContext();
+const useFlashcardContext = () => useContext(FlashcardContext);
+
+const flashcardContextInitialState = {
+  flashcards: [],
+  selectedFlashcard: null
+};
 
 const FlashcardContextProvider = ({ children }) => {
-  const [flashcards, setFlashcards] = useState([]);
-  const [selectedFlashcard, setSelectedFlashcard] = useState(null);
+  const [flashcards, setFlashcards] = useState(flashcardContextInitialState.flashcards);
+  const [selectedFlashcard, setSelectedFlashcard] = useState(flashcardContextInitialState.selectedFlashcard);
+
+  const loadFlashcards = async () => {
+    try {
+      const response = await getFlashcards();
+      setFlashcards(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const addFlashcard = async (flashcard) => {
     try {
@@ -36,11 +51,28 @@ const FlashcardContextProvider = ({ children }) => {
     }
   };
 
+  const state = {
+    flashcards,
+    selectedFlashcard
+  };
+
+  const stateSetters = {
+    setFlashcards,
+    setSelectedFlashcard
+  };
+
+  const handlers = {
+    loadFlashcards,
+    addFlashcard,
+    updateFlashcardById,
+    deleteFlashcardById
+  };
+
   return (
-    <FlashcardContext.Provider value={{ flashcards, selectedFlashcard, setSelectedFlashcard, addFlashcard, updateFlashcardById, deleteFlashcardById }}>
+    <FlashcardContext.Provider value={{ state, stateSetters, handlers }}>
       {children}
     </FlashcardContext.Provider>
   );
 };
 
-export default FlashcardContextProvider;
+export { FlashcardContextProvider, useFlashcardContext };

@@ -37,7 +37,3 @@ export const logout = async () => {
   await signOut(auth)
   setAuthToken(false);
 };
-
-export const checkAuth = () => {
-  return onAuthStateChanged
-}

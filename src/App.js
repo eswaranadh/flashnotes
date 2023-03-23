@@ -8,6 +8,8 @@ import Navbar from './components/Shared/Navbar';
 import { useAuthContext } from './context/authContext';
 import Loader from './components/Shared/Loader/Loader';
 import Signup from './pages/Signup';
+import Notes from './pages/Notes';
+import Addnotes from './pages/Addnotes';
 
 function App() {
   const { state } = useAuthContext()
@@ -19,12 +21,13 @@ function App() {
     return (
       <>
         <Navbar />
-        <div style={{ marginLeft: "220px" }} >
+        <div style={{ marginLeft: "220px", marginTop: "70px" }} >
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/" element={<Home />} />
-            {/* <Route exact path="/notes" element={<Notes />} />
-          <Route exact path="/notes/:id" element={<NoteDetails />} />
+            <Route exact path="/notes" element={<Notes />} />
+            <Route exact path="/notes/add" element={<Addnotes />} />
+            {/* <Route exact path="/notes/:id" element={<NoteDetails />} />
           <Route exact path="/flashcards" element={<Flashcards />} />
           <Route exact path="/flashcards/:id" element={<FlashcardDetails />} /> */}
             <Route path="/404" element={<NotFound />} />

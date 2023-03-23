@@ -1,4 +1,5 @@
-const admin = require("../utils/admin");
+const { db } = require("../utils/admin");
+const { getRandomColor } = require("../utils/helpers");
 
 // Create a new note
 exports.createNote = async (req, res) => {
@@ -8,8 +9,10 @@ exports.createNote = async (req, res) => {
       body: req.body.body,
       createdAt: new Date().toISOString(),
       userId: req.user.uid,
+      color: getRandomColor()
     };
-    const doc = await admin.firestore().collection("notes").add(noteData);
+    const doc = db.collection("notes").doc()
+    await doc.set({ ...noteData, id: doc.id })
     const resNote = noteData;
     resNote.noteId = doc.id;
     res.json(resNote);
@@ -22,8 +25,7 @@ exports.createNote = async (req, res) => {
 // Get all notes for a user
 exports.getAllNotes = async (req, res) => {
   try {
-    const snapshot = await admin
-      .firestore()
+    const snapshot = await db
       .collection("notes")
       .where("userId", "==", req.user.uid)
       .orderBy("createdAt", "desc")
@@ -35,6 +37,7 @@ exports.getAllNotes = async (req, res) => {
         title: doc.data().title,
         body: doc.data().body,
         createdAt: doc.data().createdAt,
+        color: doc.data().color
       });
     });
     res.json(notes);
@@ -47,7 +50,7 @@ exports.getAllNotes = async (req, res) => {
 // Get a single note by noteId
 exports.getNoteById = async (req, res) => {
   try {
-    const doc = await admin.firestore().doc(`/notes/${req.params.noteId}`).get();
+    const doc = await db.doc(`/notes/${req.params.noteId}`).get();
     if (!doc.exists) {
       return res.status(404).json({ error: "Note not found" });
     }
@@ -70,7 +73,7 @@ exports.updateNote = async (req, res) => {
       title: req.body.title,
       body: req.body.body,
     };
-    const doc = await admin.firestore().doc(`/notes/${req.params.noteId}`).get();
+    const doc = await db.doc(`/notes/${req.params.noteId}`).get();
     if (!doc.exists) {
       return res.status(404).json({ error: "Note not found" });
     }
@@ -90,7 +93,7 @@ exports.updateNote = async (req, res) => {
 // Delete a note
 exports.deleteNote = async (req, res) => {
   try {
-    const doc = await admin.firestore().doc(`/notes/${req.params.noteId}`).get();
+    const doc = await db.doc(`/notes/${req.params.noteId}`).get();
     if (!doc.exists) {
       return res.status(404).json({ error: "Note not found" });
     }

@@ -1,0 +1,81 @@
+.notes-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+
+.note-card {
+    position: relative;
+    width: 100%;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.note-card:hover {
+    transform: translateY(-4px);
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.note-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.note-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.note-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    color: #007bff;
+    font-size: 20px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.note-action:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.edit-action:hover {
+    color: #f0ad4e;
+}
+
+.delete-action:hover {
+    color: #d9534f;
+}
+
+.note-content {
+    margin: 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.no-notes {
+    margin: 0;
+    font-size: 16px;
+    color: #555;
+}
