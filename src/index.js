@@ -6,6 +6,7 @@ import { FlashcardContextProvider } from './context/flashcardContext';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NotesContextProvider } from './context/noteContext';
+import './index.css'
 
 
 // @ts-ignore
