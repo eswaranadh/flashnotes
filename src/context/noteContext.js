@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { getAllNotes, createNotes, updateNotes, deleteNotes } from '../services/notes';
+import { getAllNotes, createNotes, updateNotes, deleteNotes, getNotesById } from '../services/notes';
 
 const NotesContext = createContext();
 const useNotesContext = () => useContext(NotesContext);
@@ -56,6 +56,18 @@ const NotesContextProvider = ({ children }) => {
         }
     };
 
+    const getNoteById = async (id) => {
+        try {
+            setLoading(true)
+            const response = await getNotesById(id);
+            setSelectedNote(response);
+            setLoading(false)
+        } catch (error) {
+            console.error(error);
+            setLoading(false)
+        }
+    };
+
 
     const state = {
         notes,
@@ -72,7 +84,8 @@ const NotesContextProvider = ({ children }) => {
         loadAllNotes,
         addNote,
         updateNoteById,
-        deleteNoteById
+        deleteNoteById,
+        getNoteById
     };
 
 

@@ -10,6 +10,8 @@ import Loader from './components/Shared/Loader/Loader';
 import Signup from './pages/Signup';
 import Notes from './pages/Notes';
 import Addnotes from './pages/Addnotes';
+import EditNote from './pages/EditNote';
+import CreateFlashCards from './pages/CreateFlashCards';
 
 function App() {
   const { state } = useAuthContext()
@@ -21,12 +23,15 @@ function App() {
     return (
       <>
         <Navbar />
-        <div style={{ marginLeft: "220px", marginTop: "70px" }} >
+        <div style={{ marginLeft: "220px", marginTop: "70px", padding: "10px" }} >
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/" element={<Home />} />
             <Route exact path="/notes" element={<Notes />} />
-            <Route exact path="/notes/add" element={<Addnotes />} />
+            <Route exact path="/create-note" element={<Addnotes />} />
+            <Route exact path="/edit-note/:id" element={<EditNote />} />
+            <Route exact path="/create-flash-cards" element={<CreateFlashCards />} />
+            {/* <Route path="/edit-note/:id" element={<EditNote notes={notes} setNotes={setNotes}/>} /> */}
             {/* <Route exact path="/notes/:id" element={<NoteDetails />} />
           <Route exact path="/flashcards" element={<Flashcards />} />
           <Route exact path="/flashcards/:id" element={<FlashcardDetails />} /> */}

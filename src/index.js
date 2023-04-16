@@ -7,6 +7,7 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NotesContextProvider } from './context/noteContext';
 import './index.css'
+import 'react-quill/dist/quill.snow.css';
 
 
 // @ts-ignore

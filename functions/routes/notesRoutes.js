@@ -15,7 +15,7 @@ router.post('/', [auth, validateNote], notesController.createNote);
 router.get('/:noteId', auth, notesController.getNoteById);
 
 // Update note
-router.patch('/:noteId', [auth, validateNote], notesController.updateNote);
+router.put('/:noteId', [auth, validateNote], notesController.updateNote);
 
 // Delete note
 router.delete('/:noteId', auth, notesController.deleteNote);
