@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HiOutlineUserCircle } from 'react-icons/hi';
+import { CiUser } from 'react-icons/ci';
 import { useAuthContext } from '../../context/authContext';
 import './UserMenu.css'; // Import CSS file
 
@@ -14,12 +14,12 @@ function UserMenu() {
     return (
         <div className="user-menu-container">
             <div className="user-menu-icon" onClick={handleClick}>
-                <HiOutlineUserCircle fontSize={40} />
+                <CiUser fontSize={40} />
             </div>
             {showMenu && (
                 <div className="user-menu-dropdown">
                     <div className="user-menu-header">
-                        <HiOutlineUserCircle fontSize={40} />
+                        <CiUser fontSize={40} />
                         <h5 className="user-menu-name">John Doe</h5>
                     </div>
                     <div className="user-menu-options">

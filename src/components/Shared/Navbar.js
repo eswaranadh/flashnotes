@@ -5,6 +5,7 @@ import { CgNotes } from "react-icons/cg"
 import { TbCards } from "react-icons/tb"
 import { useNavigate } from "react-router-dom";
 import UserDropdown from "./UserDropdown";
+import Logo from "../../assets/flashcards-logo.png"
 
 function Navbar() {
   const navigate = useNavigate()
@@ -12,13 +13,28 @@ function Navbar() {
     <>
       <nav className="top-nav">
         <div className="top-nav-brand">
-          <h3 className="top-nav-brand-title">My App</h3>
+          <img src={Logo} width={50} />
+          <h3 className="top-nav-brand-title" style={{ marginLeft: "5px" }} >flashnotes</h3>
+          <div className="top-nav-actions d-flex mt-2">
+            <div onClick={() => navigate("/notes")} className="top-nav-action d-flex" >
+              <CgNotes size={22} />
+              <div className="top-nav-action-name" >
+                Notes
+              </div>
+            </div>
+            <div onClick={() => navigate("/flashcards")} className="top-nav-action d-flex" >
+              <TbCards size={22} />
+              <div className="top-nav-action-name" >
+                Flash cards
+              </div>
+            </div>
+          </div>
         </div>
         <div className="top-nav-user">
           <UserDropdown />
         </div>
       </nav>
-      <nav className="side-nav">
+      {/* <nav className="side-nav">
         <div className="side-nav-header">
           <h3 className="side-nav-header-title">Flash Notes</h3>
         </div>
@@ -44,7 +60,7 @@ function Navbar() {
             </li>
           </ul>
         </div>
-      </nav>
+      </nav> */}
     </>
   );
 }

@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 import ReactQuill from 'react-quill';
+import { BsPlusLg } from 'react-icons/bs'
+import useCustomDialog from '../hooks/useCustomDialog';
+import Button from 'react-bootstrap/Button';
+import { useFlashcardContext } from '../context/flashcardContext';
+import { useDeckContext } from '../context/deckContext';
 
 function CreateFlashCards() {
     const [title, setTitle] = useState('');
@@ -8,30 +13,74 @@ function CreateFlashCards() {
     const [front, setFront] = useState('');
     const [back, setBack] = useState('');
     const [showFront, setShowFront] = useState(true);
+    const { openDialog, renderContent, closeDialog } = useCustomDialog()
+    const { handlers } = useFlashcardContext()
+    const { handlers: deckHandlers } = useDeckContext()
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Do something with front and back text
+    }
+
+    const handleAddCard = async (event) => {
+        event.preventDefault();
+        await handlers.addFlashcard({
+            front,
+            back
+        })
     };
-    return (
-        <div className='d-flex' >
-            <div className='flashcard_form' >
-                <form className="create-note__form" onSubmit={handleSubmit} >
-                    <input type="file" />
-                    <input style={{ outline: "none" }} type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} autoFocus />
-                    <textarea style={{ outline: "none" }} rows="2" placeholder="Description" value={desc} onChange={(e) => setDesc(e.target.value)}></textarea>
-                </form>
-            </div>
-            <div className='flashcards_container create-note__form' >
+
+    const dialogContent = () => {
+        return (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <div className="flashcard_view">
-                    <textarea style={{ outline: "none" }} rows="2" placeholder="Front" value={desc} onChange={(e) => setDesc(e.target.value)}></textarea>
+                    <textarea
+                        style={{ border: "none", outline: "none", width: "100%", height: "100%", resize: "none" }}
+                        rows="2"
+                        placeholder="Front"
+                        value={front}
+                        onChange={(e) => setFront(e.target.value)}
+                    />
                 </div>
                 <br />
                 <div className="flashcard_view">
-                    <textarea style={{ outline: "none" }} rows="2" placeholder="Back" value={desc} onChange={(e) => setDesc(e.target.value)}></textarea>
-
+                    <textarea
+                        style={{ border: "none", resize: "none", outline: "none", width: "100%", height: "100%" }}
+                        rows="2"
+                        placeholder="Back"
+                        value={back}
+                        onChange={(e) => setBack(e.target.value)}
+                    />
                 </div>
             </div>
+        )
+    }
+
+    const dialogActions = () => {
+        return (
+            <div>
+                <Button variant='light' onClick={closeDialog} >
+                    Close
+                </Button>
+                {" "}
+                <Button variant='primary' onClick={handleAddCard} >
+                    Add
+                </Button>
+            </div>
+        )
+    }
+
+    return (
+        <div>
+            <div className='flashcards_container create-note__form' >
+                <div onClick={openDialog} className="c-pointer add_flashcard_view">
+                    <BsPlusLg size={30} />
+                </div>
+            </div>
+            {renderContent({
+                dialogContent: dialogContent(),
+                hideButton: true,
+                dialogActions: dialogActions()
+            })}
         </div>
     );
 }

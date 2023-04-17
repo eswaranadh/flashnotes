@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { NotesContextProvider } from './context/noteContext';
 import './index.css'
 import 'react-quill/dist/quill.snow.css';
+import { DeckContextProvider } from './context/deckContext';
 
 
 // @ts-ignore
@@ -16,9 +17,11 @@ root.render(
   <Router>
     <AuthProvider>
       <NotesContextProvider>
-        <FlashcardContextProvider>
-          <App />
-        </FlashcardContextProvider>
+        <DeckContextProvider>
+          <FlashcardContextProvider>
+            <App />
+          </FlashcardContextProvider>
+        </DeckContextProvider>
       </NotesContextProvider>
     </AuthProvider>
   </Router>

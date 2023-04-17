@@ -107,7 +107,7 @@ const EditNote = ({ notes, setNotes }) => {
             <header className="create-note__header">
                 <Link to="/" className="btn"><IoIosArrowBack /></Link>
                 <div>
-                    <button className="btn" onClick={handleForm}>Save</button>
+                    <button className="btn btn-primary" onClick={handleForm}>Save</button>
                 </div>
                 <div>
                     <button className="btn danger" onClick={handleDelete}><RiDeleteBin6Line /></button>

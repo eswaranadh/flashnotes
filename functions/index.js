@@ -6,6 +6,7 @@ const functions = require('firebase-functions');
 const authRoutes = require('./routes/authRoutes');
 const notesRoutes = require('./routes/notesRoutes');
 const flashcardsRoutes = require('./routes/flashcardsRoutes');
+const deckRoutes = require('./routes/deckRoutes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(function (req, res, next) {
 app.use('/auth', authRoutes);
 app.use('/notes', notesRoutes);
 app.use('/flashcards', flashcardsRoutes);
+app.use('/decks', deckRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

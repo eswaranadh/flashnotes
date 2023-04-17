@@ -3,18 +3,21 @@ const { validationResult } = require('express-validator');
 
 // Create a new flashcard
 exports.createFlashcard = async (req, res) => {
-  const { title, body } = req.body;
+  const { title, description } = req.body;
   const flashcardData = {
     title,
-    body,
+    description,
     createdAt: new Date().toISOString(),
     createdBy: req.user.uid,
   };
 
   try {
-    const newFlashcard = await db.collection('flashcards').add(flashcardData);
-    const flashcard = await newFlashcard.get();
-    res.status(201).json({ id: flashcard.id, ...flashcard.data() });
+    const ref = db.collection("flashcards").doc()
+    await ref.set({
+      ...flashcardData,
+      id: ref.id
+    });
+    res.status(201).json({ id: ref.id, ...flashcardData });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Something went wrong' });
@@ -54,10 +57,10 @@ exports.getFlashcardById = async (req, res) => {
 // Update a flashcard by ID
 exports.updateFlashcard = async (req, res) => {
   const { id } = req.params;
-  const { title, body } = req.body;
+  const { title, description } = req.body;
   const flashcardData = {
     title,
-    body,
+    description,
     updatedAt: new Date().toISOString(),
   };
 

@@ -33,7 +33,7 @@ function Notes() {
                 {!showSearch && <h2></h2>}
                 {showSearch && <input type="text" value={text} onChange={(e) => { setText(e.target.value); handleSearch(); }} autoFocus placeholder='Keyword...' />}
                 <div>
-                    <button className='btn' onClick={() => setShowSearch(prevState => !prevState)}>{showSearch ? <MdClose /> : <CiSearch />}</button>
+                    <button className='btn btn-primary' onClick={() => setShowSearch(prevState => !prevState)}>{showSearch ? <MdClose /> : <CiSearch />}</button>
                 </div>
             </header>
             <div className="notes__container">
@@ -48,7 +48,7 @@ function Notes() {
                     <p className="no-notes">No notes yet. Start creating!</p>
                 )}
             </div>
-            <Link to="/create-note" className='btn add__btn'><BsPlusLg /></Link>
+            <Link to="/create-note" className='btn btn-primary add__btn'><BsPlusLg /></Link>
         </section>
     );
 }

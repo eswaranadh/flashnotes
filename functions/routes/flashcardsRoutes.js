@@ -8,15 +8,15 @@ const { validateFlashcard } = require('../utils/validators');
 router.get('/', auth, flashcardsController.getAllFlashcards);
 
 // GET details of a single flashcard for a user
-router.get('/:flashcardId', auth, flashcardsController.getFlashcardById);
+router.get('/:id', auth, flashcardsController.getFlashcardById);
 
 // CREATE a new flashcard for a user
 router.post('/', [auth, validateFlashcard], flashcardsController.createFlashcard);
 
 // UPDATE an existing flashcard for a user
-router.put('/:flashcardId', [auth, validateFlashcard], flashcardsController.updateFlashcard);
+router.put('/:id', [auth, validateFlashcard], flashcardsController.updateFlashcard);
 
 // DELETE an existing flashcard for a user
-router.delete('/:flashcardId', auth, flashcardsController.deleteFlashcard);
+router.delete('/:id', auth, flashcardsController.deleteFlashcard);
 
 module.exports = router;

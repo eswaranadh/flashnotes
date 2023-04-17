@@ -6,19 +6,24 @@ const useFlashcardContext = () => useContext(FlashcardContext);
 
 const flashcardContextInitialState = {
   flashcards: [],
-  selectedFlashcard: null
+  selectedFlashcard: {},
+  loading: true
 };
 
 const FlashcardContextProvider = ({ children }) => {
   const [flashcards, setFlashcards] = useState(flashcardContextInitialState.flashcards);
   const [selectedFlashcard, setSelectedFlashcard] = useState(flashcardContextInitialState.selectedFlashcard);
+  const [loading, setLoading] = useState(flashcardContextInitialState.loading);
 
   const loadFlashcards = async () => {
     try {
+      setLoading(true)
       const response = await getFlashcards();
       setFlashcards(response);
+      setLoading(false)
     } catch (error) {
       console.error(error);
+      setLoading(false)
     }
   };
 
@@ -53,7 +58,8 @@ const FlashcardContextProvider = ({ children }) => {
 
   const state = {
     flashcards,
-    selectedFlashcard
+    selectedFlashcard,
+    loading
   };
 
   const stateSetters = {

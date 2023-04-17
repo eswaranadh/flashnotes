@@ -65,8 +65,21 @@ const validateNote = [
 
 // Validate flashcard creation/update request
 const validateFlashcard = [
+  body('front').notEmpty().withMessage('Front is required'),
+  body('back').notEmpty().withMessage('Back is required'),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+];
+
+// Validate deck creation/update request
+const validateDeck = [
   body('title').notEmpty().withMessage('Title is required'),
-  body('body').notEmpty().withMessage('Body is required'),
+  body('description').notEmpty().withMessage('Description is required'),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -81,5 +94,6 @@ module.exports = {
   validateLoginData,
   validateAuthCredentials,
   validateNote,
-  validateFlashcard
+  validateFlashcard,
+  validateDeck
 };
