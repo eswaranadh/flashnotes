@@ -3,10 +3,11 @@ const { validationResult } = require('express-validator');
 
 // Create a new flashcard
 exports.createFlashcard = async (req, res) => {
-  const { title, description } = req.body;
+  const { front, back, deckId } = req.body;
   const flashcardData = {
-    title,
-    description,
+    front,
+    back,
+    deckId,
     createdAt: new Date().toISOString(),
     createdBy: req.user.uid,
   };
@@ -27,9 +28,16 @@ exports.createFlashcard = async (req, res) => {
 // Get all flashcards for a user
 exports.getAllFlashcards = async (req, res) => {
   const { uid } = req.user;
-
+  const { deckId } = req.query
   try {
-    const snapshot = await db.collection('flashcards').where('createdBy', '==', uid).get();
+    let snapshot
+    if (deckId)
+      snapshot = await db.collection('flashcards')
+        .where('createdBy', '==', uid)
+        .where('deckId', '==', deckId)
+        .get();
+    else
+      snapshot = await db.collection('flashcards').where('createdBy', '==', uid).get();
     const flashcards = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     res.json(flashcards);
   } catch (err) {
@@ -57,10 +65,11 @@ exports.getFlashcardById = async (req, res) => {
 // Update a flashcard by ID
 exports.updateFlashcard = async (req, res) => {
   const { id } = req.params;
-  const { title, description } = req.body;
+  const { front, back, deckId } = req.body;
   const flashcardData = {
-    title,
-    description,
+    front,
+    back,
+    deckId,
     updatedAt: new Date().toISOString(),
   };
 

@@ -67,6 +67,7 @@ const validateNote = [
 const validateFlashcard = [
   body('front').notEmpty().withMessage('Front is required'),
   body('back').notEmpty().withMessage('Back is required'),
+  body('deckId').notEmpty().withMessage('deckId is required'),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

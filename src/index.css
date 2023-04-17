@@ -370,7 +370,8 @@ h2 {
 
 .flashcards_container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -378,8 +379,10 @@ h2 {
   padding: 3rem;
   background-color: var(--color-bg-dark);
   color: var(--color-white);
-  overflow-y: scroll;
+  overflow-x: scroll;
+  overflow-y: auto;
 }
+
 
 .flashcards_container::-webkit-scrollbar {
   width: 10px;
@@ -558,15 +561,47 @@ input[type="file"] {
 }
 
 .deckcard_view {
+  position: relative;
+  /* Make the card a positioned element */
   background-color: white;
   border: 1px solid #e0e0e0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   height: 180px;
   width: 410px;
-  transition: all 0.2s ease-in-out;
   cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  /* Add a transition effect to the card */
+  transform-style: preserve-3d;
+  /* Enable 3D transforms */
 }
+
+.deckcard_view.flip {
+  transform: rotateY(180deg);
+  /* Rotate the card around its Y-axis */
+}
+
+.deckcard_view .card-front,
+.deckcard_view .card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  white-space: pre-wrap;
+  /* Hide the back of the card */
+}
+
+.deckcard_view .card-front {
+  z-index: 2;
+  /* Show the front of the card on top */
+}
+
+.deckcard_view .card-back {
+  transform: rotateY(180deg);
+  /* Rotate the back of the card */
+  z-index: 1;
+}
+
 
 .border-bottom {
   border-bottom: 1px solid #ccc !important;

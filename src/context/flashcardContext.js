@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { getFlashcards, createFlashcard, updateFlashcard, deleteFlashcard } from '../services/flashcards';
+import { getFlashcards, createFlashcard, updateFlashcard, deleteFlashcard, getFlashcardByDeckId } from '../services/flashcards';
 
 const FlashcardContext = createContext();
 const useFlashcardContext = () => useContext(FlashcardContext);
@@ -19,6 +19,18 @@ const FlashcardContextProvider = ({ children }) => {
     try {
       setLoading(true)
       const response = await getFlashcards();
+      setFlashcards(response);
+      setLoading(false)
+    } catch (error) {
+      console.error(error);
+      setLoading(false)
+    }
+  };
+
+  const loadFlashcardsByDeckId = async (deckId) => {
+    try {
+      setLoading(true)
+      const response = await getFlashcardByDeckId(deckId);
       setFlashcards(response);
       setLoading(false)
     } catch (error) {
@@ -71,7 +83,8 @@ const FlashcardContextProvider = ({ children }) => {
     loadFlashcards,
     addFlashcard,
     updateFlashcardById,
-    deleteFlashcardById
+    deleteFlashcardById,
+    loadFlashcardsByDeckId
   };
 
   return (

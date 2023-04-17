@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 import ReactQuill from 'react-quill';
 import { BsPlusLg } from 'react-icons/bs'
@@ -6,6 +6,8 @@ import useCustomDialog from '../hooks/useCustomDialog';
 import Button from 'react-bootstrap/Button';
 import { useFlashcardContext } from '../context/flashcardContext';
 import { useDeckContext } from '../context/deckContext';
+import { useParams } from 'react-router-dom';
+import FlashcardItem from '../components/Flashcards/FlashcardItem';
 
 function CreateFlashCards() {
     const [title, setTitle] = useState('');
@@ -14,19 +16,26 @@ function CreateFlashCards() {
     const [back, setBack] = useState('');
     const [showFront, setShowFront] = useState(true);
     const { openDialog, renderContent, closeDialog } = useCustomDialog()
-    const { handlers } = useFlashcardContext()
-    const { handlers: deckHandlers } = useDeckContext()
+    const { handlers, state } = useFlashcardContext()
+    const [loading, setLoading] = useState(false);
+    const { id } = useParams()
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-    }
+    useEffect(() => {
+        handlers.loadFlashcardsByDeckId(id)
+    }, [id])
 
     const handleAddCard = async (event) => {
         event.preventDefault();
+        setLoading(true)
         await handlers.addFlashcard({
             front,
-            back
+            back,
+            deckId: id
         })
+        setFront("")
+        setBack("")
+        setLoading(false)
+        closeDialog()
     };
 
     const dialogContent = () => {
@@ -63,7 +72,7 @@ function CreateFlashCards() {
                 </Button>
                 {" "}
                 <Button variant='primary' onClick={handleAddCard} >
-                    Add
+                    {loading ? "Adding" : "Add"}
                 </Button>
             </div>
         )
@@ -71,7 +80,17 @@ function CreateFlashCards() {
 
     return (
         <div>
-            <div className='flashcards_container create-note__form' >
+            <div className='decks__container' >
+                {
+                    state.flashcards.map(card => {
+                        return (
+                            <FlashcardItem
+                                key={card.id}
+                                flashcard={card}
+                            />
+                        )
+                    })
+                }
                 <div onClick={openDialog} className="c-pointer add_flashcard_view">
                     <BsPlusLg size={30} />
                 </div>

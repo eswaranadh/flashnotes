@@ -10,6 +10,11 @@ export const getFlashcardById = async (id) => {
   return response
 };
 
+export const getFlashcardByDeckId = async (deckId) => {
+  const response = await api.get(`/flashcards?deckId=${deckId}`);
+  return response
+};
+
 export const createFlashcard = async (flashcardData) => {
   const response = await api.post('/flashcards', flashcardData);
   return response
